@@ -2,6 +2,6 @@ export class CreateUsuarioDto {
     nome: string;
     email: string;
     senha: string;
-    cargoId: string;
+    cargo: string;
     naipe: string;
 }
