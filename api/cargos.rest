@@ -1,0 +1,24 @@
+### POST - CRIAR CARGO
+POST http://localhost:9000/cargos
+Content-Type: application/json
+
+{
+  "nome": "Gerente de Projetos"
+}
+
+### GET - LISTAR CARGOS
+GET http://localhost:9000/cargos
+
+### GET - BUSCAR CARGO POR ID
+GET http://localhost:9000/cargos/{id}
+
+### PATCH - ATUALIZAR CARGO
+PATCH http://localhost:9000/cargos/{id}
+Content-Type: application/json
+
+{
+  "nome": "Gerente de Projetos Sênior"
+}
+
+### DELETE - DELETAR CARGO
+DELETE http://localhost:9000/cargos/{id}
