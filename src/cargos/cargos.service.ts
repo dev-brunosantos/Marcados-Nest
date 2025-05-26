@@ -26,7 +26,7 @@ export class CargosService {
     return cargoId
   }
 
-  async create(createCargoDto: CreateCargoDto) {
+  async criar(createCargoDto: CreateCargoDto) {
     const cargo = await this.cargoExistente(createCargoDto.nome);
     if (!cargo) {
       const novoCargo = await this.prisma.cargo.create({
@@ -37,7 +37,7 @@ export class CargosService {
     throw new HttpException("O cargo informado já existe no sistema.", HttpStatus.BAD_REQUEST)
   }
 
-  async findAll() {
+  async listar() {
     const cargos = await this.prisma.cargo.findMany()
     if (cargos.length > 0) {
       return cargos;
@@ -46,7 +46,7 @@ export class CargosService {
     throw new HttpException("Não existem cargos cadastrados no sistema.", HttpStatus.NOT_FOUND);
   }
 
-  async findOne(id: number) {
+  async filtrarID(id: number) {
     const idCargo = await this.cargoId(id);
     if (idCargo) {
       return idCargo;
@@ -54,7 +54,15 @@ export class CargosService {
     throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
   }
 
-  async update(id: number, updateCargoDto: UpdateCargoDto) {
+  async filtrarNome(nome: string) {
+    const cargoNome = await this.cargoExistente(nome);
+    if (cargoNome) {
+      return cargoNome;
+    }
+    throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
+  }
+
+  async atualizar(id: number, updateCargoDto: UpdateCargoDto) {
     const cargoId = this.cargoId(id);
     try {
       const cargoAtualizado = this.prisma.cargo.update({
@@ -73,7 +81,7 @@ export class CargosService {
     }
   }
 
-  async remove(id: number) {
+  async apagar(id: number) {
     const cargoId = await this.cargoId(id);
     if (cargoId) {
       await this.prisma.cargo.delete({
