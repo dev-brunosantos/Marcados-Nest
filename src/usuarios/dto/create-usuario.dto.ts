@@ -3,5 +3,5 @@ export class CreateUsuarioDto {
     email: string;
     senha: string;
     cargo: string;
-    naipe: string;
+    naipe?: string;
 }

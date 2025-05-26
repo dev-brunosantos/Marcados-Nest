@@ -5,5 +5,5 @@ export class UpdateUsuarioDto extends PartialType(CreateUsuarioDto) {
     nome: string;
     senha: string;
     cargo: string;
-    naipe: string;
+    naipe?: string;
 }
