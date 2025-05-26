@@ -1,0 +1,27 @@
+### POST - CRIAR usuarios
+POST http://localhost:9000/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Bruno Santos",
+  "email": "brunosdesenvolvedor@gmail.com",
+  "senha": "Brunosds1@",
+  "cargo": "Desenvolvedor"
+}
+
+### GET - LISTAR usuarios
+GET http://localhost:9000/usuarios
+
+### GET - BUSCAR usuarios POR ID
+GET http://localhost:9000/usuarios/c0d2ce3b-5c68-4141-8936-dd2e6b81f7c7
+
+### PATCH - ATUALIZAR usuarios
+PATCH http://localhost:9000/usuarios/5
+Content-Type: application/json
+
+{
+  "nome": "Desenvolvedor"
+}
+
+### DELETE - DELETAR usuarios
+DELETE http://localhost:9000/usuarios/{id}
