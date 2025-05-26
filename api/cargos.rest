@@ -10,14 +10,14 @@ Content-Type: application/json
 GET http://localhost:9000/cargos
 
 ### GET - BUSCAR CARGO POR ID
-GET http://localhost:9000/cargos/{id}
+GET http://localhost:9000/cargos/5
 
 ### PATCH - ATUALIZAR CARGO
-PATCH http://localhost:9000/cargos/{id}
+PATCH http://localhost:9000/cargos/5
 Content-Type: application/json
 
 {
-  "nome": "Gerente de Projetos Sênior"
+  "nome": "Desenvolvedor"
 }
 
 ### DELETE - DELETAR CARGO
