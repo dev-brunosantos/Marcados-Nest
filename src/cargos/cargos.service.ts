@@ -65,32 +65,31 @@ export class CargosService {
   }
 
   async atualizar(id: number, updateCargoDto: UpdateCargoDto) {
-    const cargoId = this.cargoId(id);
-    try {
-      const cargoAtualizado = this.prisma.cargo.update({
+    const cargoId = await this.cargoId(id);
+    
+    if (cargoId) {
+      const cargoAtualizado = await this.prisma.cargo.update({
         where: { id },
         data: updateCargoDto
-      });
+      })
 
       return {
         status: "Atualização realizada com sucesso.",
         dadosAntigos: cargoId,
         atualizacao: cargoAtualizado
       }
-    } catch (error) {
-      console.error(error);
-      throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
-    }
-  }
-
-  async apagar(id: number) {
-    const cargoId = await this.cargoId(id);
-    if (cargoId) {
-      await this.prisma.cargo.delete({
-        where: { id }
-      });
-      return `O cargo ${cargoId.nome.toUpperCase()} foi excluido com sucesso.`
     }
     throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
   }
+
+  async apagar(id: number) {
+  const cargoId = await this.cargoId(id);
+  if (cargoId) {
+    await this.prisma.cargo.delete({
+      where: { id }
+    });
+    return `O cargo ${cargoId.nome.toUpperCase()} foi excluido com sucesso.`
+  }
+  throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
+}
 }
