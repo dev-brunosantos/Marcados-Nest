@@ -8,27 +8,32 @@ export class CargosController {
   constructor(private readonly cargosService: CargosService) {}
 
   @Post()
-  create(@Body() createCargoDto: CreateCargoDto) {
-    return this.cargosService.create(createCargoDto);
+  criarCargo(@Body() createCargoDto: CreateCargoDto) {
+    return this.cargosService.criar(createCargoDto);
   }
 
   @Get()
-  findAll() {
-    return this.cargosService.findAll();
+  listarCargos() {
+    return this.cargosService.listar();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cargosService.findOne(+id);
+  CargoID(@Param('id') id: string) {
+    return this.cargosService.filtrarID(+id);
+  }
+
+  @Get('/nome/:cargo')
+  cargoNome(@Param('cargo') cargo: string) {
+    return this.cargosService.filtrarNome(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCargoDto: UpdateCargoDto) {
-    return this.cargosService.update(+id, updateCargoDto);
+  atualizar(@Param('id') id: string, @Body() updateCargoDto: UpdateCargoDto) {
+    return this.cargosService.atualizar(+id, updateCargoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cargosService.remove(+id);
+  apagar(@Param('id') id: string) {
+    return this.cargosService.apagar(+id);
   }
 }
