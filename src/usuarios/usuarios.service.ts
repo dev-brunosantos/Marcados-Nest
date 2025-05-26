@@ -1,26 +1,129 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CargosService } from 'src/cargos/cargos.service';
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
-  create(createUsuarioDto: CreateUsuarioDto) {
-    return 'This action adds a new usuario';
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly cargos: CargosService
+  ) { }
+
+  async usuarioInfor(dado: string) {
+    const usuario = await this.prisma.usuario.findFirst({
+      where: {
+        OR: [
+          { id: dado },
+          { nome: dado },
+          { email: dado },
+        ]
+      }
+    })
+
+    return usuario;
   }
 
-  findAll() {
-    return `This action returns all usuarios`;
+  async cadastro(createUsuarioDto: CreateUsuarioDto) {
+    const usuarioExistente = await this.usuarioInfor(createUsuarioDto.email);
+
+    if (!usuarioExistente) {
+      const senhaCriptografada = await hash(createUsuarioDto.senha, 10);
+      const cargoId = await this.cargos.filtrarNome(createUsuarioDto.cargo);
+
+      if (!cargoId) {
+        throw new HttpException('Cargo não encontrado', HttpStatus.NOT_FOUND);
+      }
+
+      const novoUsuario = await this.prisma.usuario.create({
+        data: {
+          nome: createUsuarioDto.nome,
+          email: createUsuarioDto.email,
+          senha: senhaCriptografada,
+          // cargoId: cargoId.id
+          cargos: {
+            connect: {
+              id: cargoId.id
+            }
+          }
+        }
+      })
+
+      return `O usuário ${novoUsuario.nome.toUpperCase()} foi cadastrado com sucesso!`;
+    }
+
+    throw new HttpException('Usuário já cadastrado', HttpStatus.BAD_REQUEST);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  async listarUsuarios() {
+    const usuarios = await this.prisma.usuario.findMany()
+
+    if (usuarios.length > 0) {
+      return usuarios
+    }
+
+    throw new HttpException('Nenhum usuário encontrado', HttpStatus.NOT_FOUND);
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  async filtrarUsuaroID(id: string) {
+    const usuarioID = await this.usuarioInfor(id);
+
+    if (usuarioID) {
+      return usuarioID;
+    }
+
+    throw new HttpException('O ID informado não esta vinculado a nenhum usuário cadastrado no sistema.', HttpStatus.NOT_FOUND);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  async atualizar(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const usuarioID = await this.filtrarUsuaroID(id);
+    const cargoId = await this.cargos.filtrarNome(updateUsuarioDto.cargo);
+
+    if (!cargoId) {
+      throw new HttpException('Cargo não encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    if (usuarioID) {
+      const usuarioAtualizado = await this.prisma.usuario.update({
+        where: {
+          id: usuarioID.id
+        },
+        data: {
+          nome: updateUsuarioDto.nome === undefined ? usuarioID.nome : updateUsuarioDto.nome,
+          cargos: {
+            connect: {
+              id: cargoId.id
+            }
+          }
+        }
+      })
+
+      // return `O usuário ${usuarioAtualizado.nome.toUpperCase()} foi atualizado com sucesso!`;
+      return {
+        status: "Atualização realizada com sucesso",
+        dadosAntigos: usuarioID,
+        dadosNovos: usuarioAtualizado
+      }
+    }
+
+    throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
+  }
+
+  async apagarDados(id: string) {
+    const usuarioID = await this.filtrarUsuaroID(id);
+
+    if (usuarioID) {
+      await this.prisma.usuario.delete({
+        where: {
+          id: usuarioID.id
+        }
+      })
+
+      return `O usuário ${usuarioID.nome.toUpperCase()} foi removido com sucesso!`;
+    }
+    throw new HttpException('Usuário não encontrado', HttpStatus.NOT_FOUND);
   }
 }
