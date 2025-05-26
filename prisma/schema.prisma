@@ -45,8 +45,8 @@ model Usuario {
 
   cargoId Int
   cargos  Cargo  @relation(fields: [cargoId], references: [id])
-  vozId   Int
+  vozId   Int?
   vozes   Voz? @relation(fields: [vozId], references: [id])
-  instrumentoId Int
+  instrumentoId Int?
   instrumento Instrumento? @relation(fields: [instrumentoId], references: [id])
 }
