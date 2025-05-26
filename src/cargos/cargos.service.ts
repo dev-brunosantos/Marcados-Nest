@@ -1,26 +1,86 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCargoDto } from './dto/create-cargo.dto';
 import { UpdateCargoDto } from './dto/update-cargo.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class CargosService {
-  create(createCargoDto: CreateCargoDto) {
-    return 'This action adds a new cargo';
+
+  constructor(private prisma: PrismaService) { }
+
+  private async cargoExistente(cargo: string) {
+    const cargoExistente = await this.prisma.cargo.findFirst({
+      where: {
+        nome: cargo
+      }
+    })
+
+    return cargoExistente
   }
 
-  findAll() {
-    return `This action returns all cargos`;
+  private async cargoId(id: number) {
+    const cargoId = await this.prisma.cargo.findFirst({
+      where: { id }
+    })
+
+    return cargoId
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cargo`;
+  async create(createCargoDto: CreateCargoDto) {
+    const cargo = await this.cargoExistente(createCargoDto.nome);
+    if (!cargo) {
+      const novoCargo = await this.prisma.cargo.create({
+        data: createCargoDto
+      });
+    }
+
+    throw new HttpException("O cargo informado já existe no sistema.", HttpStatus.BAD_REQUEST)
   }
 
-  update(id: number, updateCargoDto: UpdateCargoDto) {
-    return `This action updates a #${id} cargo`;
+  async findAll() {
+    const cargos = await this.prisma.cargo.findMany()
+    if (cargos.length > 0) {
+      return cargos;
+    }
+
+    throw new HttpException("Não existem cargos cadastrados no sistema.", HttpStatus.NOT_FOUND);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} cargo`;
+  async findOne(id: number) {
+    const idCargo = await this.cargoId(id);
+    if (idCargo) {
+      return idCargo;
+    }
+    throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
+  }
+
+  async update(id: number, updateCargoDto: UpdateCargoDto) {
+    const cargoId = this.cargoId(id);
+    try {
+      const cargoAtualizado = this.prisma.cargo.update({
+        where: { id },
+        data: updateCargoDto
+      });
+
+      return {
+        status: "Atualização realizada com sucesso.",
+        dadosAntigos: cargoId,
+        atualizacao: cargoAtualizado
+      }
+    } catch (error) {
+      console.error(error);
+      throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
+    }
+  }
+
+  async remove(id: number) {
+    const cargoId = await this.cargoId(id);
+    if (cargoId) {
+      await this.prisma.cargo.delete({
+        where: { id }
+      });
+      return `O cargo ${cargoId.nome.toUpperCase()} foi excluido com sucesso.`
+    }
+    throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
   }
 }
