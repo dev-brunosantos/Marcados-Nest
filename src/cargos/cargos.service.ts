@@ -32,6 +32,8 @@ export class CargosService {
       const novoCargo = await this.prisma.cargo.create({
         data: createCargoDto
       });
+
+      return `O cargo ${novoCargo.nome.toUpperCase()} foi criado com sucesso.`;
     }
 
     throw new HttpException("O cargo informado já existe no sistema.", HttpStatus.BAD_REQUEST)
