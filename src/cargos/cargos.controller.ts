@@ -24,7 +24,7 @@ export class CargosController {
 
   @Get('/nome/:cargo')
   cargoNome(@Param('cargo') cargo: string) {
-    return this.cargosService.filtrarNome(id);
+    return this.cargosService.filtrarNome(cargo);
   }
 
   @Patch(':id')
