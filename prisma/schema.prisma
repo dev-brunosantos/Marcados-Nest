@@ -1,15 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  // provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model Cargo {
+  id            Int      @id @default(autoincrement())
+  nome          String   @unique
+  dtCriacao     DateTime @default(now())
+  dtAtualizacao DateTime @updatedAt
+
+  usuarios Usuario[]
+}
+
+model Voz {
+  id            Int      @id @default(autoincrement())
+  naipe         String   @unique
+  dtCriacao     DateTime @default(now())
+  dtAtualizacao DateTime @updatedAt
+
+  usuarios Usuario[]
+}
+
+model Instrumento {
+  id            Int      @id @default(autoincrement())
+  naipe         String   @unique
+  dtCriacao     DateTime @default(now())
+  dtAtualizacao DateTime @updatedAt
+
+  usuarios Usuario[]
+}
+
+model Usuario {
+  id            String   @id @default(uuid())
+  nome          String
+  email         String   @unique
+  senha         String
+  dtCadastro    DateTime @default(now())
+  dtAtualizacao DateTime @updatedAt
+
+  cargoId Int
+  cargos  Cargo  @relation(fields: [cargoId], references: [id])
+  vozId   Int
+  vozes   Voz? @relation(fields: [vozId], references: [id])
+  instrumentoId Int
+  instrumento Instrumento? @relation(fields: [instrumentoId], references: [id])
 }
