@@ -4,6 +4,8 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CargosService } from 'src/cargos/cargos.service';
 import { hash } from 'bcrypt';
+import { formatarArrayDeUsuarios, formatarDadosUsuario } from 'src/functions/formatacao/dadosUsuario';
+import { selectUsuario } from 'src/functions/select/selectInforUsuario';
 
 @Injectable()
 export class UsuariosService {
@@ -21,10 +23,26 @@ export class UsuariosService {
           { nome: dado },
           { email: dado },
         ]
-      }
+      },
+      // select: {
+      //   id: true,
+      //   nome: true,
+      //   email: true,
+      //   senha: true,
+      //   cargos: {
+      //     select: {
+      //       id: true,
+      //       nome: true
+      //     }
+      //   },
+      //   dtCadastro: true,
+      //   dtAtualizacao: true
+      // }
+      select: selectUsuario
     })
 
-    return usuario;
+    var infor = formatarDadosUsuario(usuario)
+    return infor;
   }
 
   async cadastro(createUsuarioDto: CreateUsuarioDto) {
@@ -59,10 +77,22 @@ export class UsuariosService {
   }
 
   async listarUsuarios() {
-    const usuarios = await this.prisma.usuario.findMany()
+    const usuarios = await this.prisma.usuario.findMany({
+      select: {
+        id: true,
+        nome: true,
+        email: true,
+        cargos: {
+          select: {
+            nome: true
+          }
+        }
+      }
+    })
 
     if (usuarios.length > 0) {
-      return usuarios
+      var usuariosInfor = formatarArrayDeUsuarios(usuarios);
+      return usuariosInfor // usuarios
     }
 
     throw new HttpException('Nenhum usuário encontrado', HttpStatus.NOT_FOUND);
