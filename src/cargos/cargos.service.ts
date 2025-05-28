@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCargoDto } from './dto/create-cargo.dto';
 import { UpdateCargoDto } from './dto/update-cargo.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { formatarDadosCargos } from 'src/functions/formatacao/dadosCargos';
+import { formatarArrayDeCargos, formatarDadosCargos } from 'src/functions/formatacao/dadosCargos';
 
 @Injectable()
 export class CargosService {
@@ -49,7 +49,8 @@ export class CargosService {
   async listar() {
     const cargos = await this.prisma.cargo.findMany()
     if (cargos.length > 0) {
-      return cargos;
+      var cargosFormatados = formatarArrayDeCargos(cargos)
+      return cargosFormatados;
     }
 
     throw new HttpException("Não existem cargos cadastrados no sistema.", HttpStatus.NOT_FOUND);
