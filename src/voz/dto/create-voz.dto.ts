@@ -1,1 +1,3 @@
-export class CreateVozDto {}
+export class CreateVozDto {
+    naipe: string;
+}
