@@ -24,25 +24,13 @@ export class UsuariosService {
           { email: dado },
         ]
       },
-      // select: {
-      //   id: true,
-      //   nome: true,
-      //   email: true,
-      //   senha: true,
-      //   cargos: {
-      //     select: {
-      //       id: true,
-      //       nome: true
-      //     }
-      //   },
-      //   dtCadastro: true,
-      //   dtAtualizacao: true
-      // }
       select: selectUsuario
     })
 
-    var infor = formatarDadosUsuario(usuario)
-    return infor;
+    if(usuario) {
+      var infor = formatarDadosUsuario(usuario)
+      return infor;
+    }
   }
 
   async cadastro(createUsuarioDto: CreateUsuarioDto) {
