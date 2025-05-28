@@ -12,14 +12,25 @@ export interface UsuarioProps {
 }
 
 export function formatarDadosUsuario(usuarioProps: UsuarioProps): any {
+    
+    // var { nome, email, cargos, dtCadastro, dtAtualizacao } = usuarioProps
+
     const infor = {
         id: usuarioProps.id,
         nome: usuarioProps.nome,
         email: usuarioProps.email,
         cargo: usuarioProps.cargos.nome,
-        dtCadastro: formataData(usuarioProps.dtCadastro),
-        dtAtualizacao: formataData(usuarioProps.dtAtualizacao)
+        cadastro: formataData(usuarioProps.dtCadastro),
+        atualizacao: formataData(usuarioProps.dtAtualizacao)
     }
+    // const infor = {
+    //     // id,
+    //     nome,
+    //     email,
+    //     cargo: cargos.nome,
+    //     dtCadastro: formataData(dtCadastro),
+    //     dtAtualizacao: formataData(dtAtualizacao)
+    // }
 
     return infor
 }
