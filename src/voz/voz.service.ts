@@ -1,9 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { CreateVozDto } from './dto/create-voz.dto';
 import { UpdateVozDto } from './dto/update-voz.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class VozService {
+
+  constructor(
+    private prisma: PrismaService
+  ) {}
+
   create(createVozDto: CreateVozDto) {
     return 'This action adds a new voz';
   }
