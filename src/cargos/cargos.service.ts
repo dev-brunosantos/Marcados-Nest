@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCargoDto } from './dto/create-cargo.dto';
 import { UpdateCargoDto } from './dto/update-cargo.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { formatarDadosCargos } from 'src/functions/formatacao/dadosCargos';
 
 @Injectable()
 export class CargosService {
@@ -15,7 +16,10 @@ export class CargosService {
       }
     })
 
-    return cargoExistente
+    if(cargoExistente) {
+      var infor = formatarDadosCargos(cargoExistente)
+      return infor
+    }
   }
 
   private async cargoId(id: number) {
@@ -23,7 +27,10 @@ export class CargosService {
       where: { id }
     })
 
-    return cargoId
+    if(cargoId) {
+      var infor = formatarDadosCargos(cargoId)
+      return infor
+    }
   }
 
   async criar(createCargoDto: CreateCargoDto) {
@@ -66,7 +73,7 @@ export class CargosService {
 
   async atualizar(id: number, updateCargoDto: UpdateCargoDto) {
     const cargoId = await this.cargoId(id);
-    
+
     if (cargoId) {
       const cargoAtualizado = await this.prisma.cargo.update({
         where: { id },
@@ -83,13 +90,13 @@ export class CargosService {
   }
 
   async apagar(id: number) {
-  const cargoId = await this.cargoId(id);
-  if (cargoId) {
-    await this.prisma.cargo.delete({
-      where: { id }
-    });
-    return `O cargo ${cargoId.nome.toUpperCase()} foi excluido com sucesso.`
+    const cargoId = await this.cargoId(id);
+    if (cargoId) {
+      await this.prisma.cargo.delete({
+        where: { id }
+      });
+      return `O cargo ${cargoId.nome.toUpperCase()} foi excluido com sucesso.`
+    }
+    throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
   }
-  throw new HttpException("O cargo informado não existe no sistema.", HttpStatus.NOT_FOUND);
-}
 }
