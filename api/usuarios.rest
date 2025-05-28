@@ -3,17 +3,17 @@ POST http://localhost:9000/usuarios
 Content-Type: application/json
 
 {
-  "nome": "Bruno Santos",
-  "email": "brunosdesenvolvedor@gmail.com",
-  "senha": "Brunosds1@",
-  "cargo": "Desenvolvedor"
+  "nome": "Rodolfo Ferreira",
+  "email": "rodolfo@gmail.com",
+  "senha": "1234",
+  "cargo": "Musico"
 }
 
 ### GET - LISTAR usuarios
 GET http://localhost:9000/usuarios
 
 ### GET - BUSCAR usuarios POR ID
-GET http://localhost:9000/usuarios/c0d2ce3b-5c68-4141-8936-dd2e6b81f7c7
+GET http://localhost:9000/usuarios/dde2ac0b-d928-45e7-856d-7ac9ad75f055
 
 ### PATCH - ATUALIZAR usuarios
 PATCH http://localhost:9000/usuarios/5
