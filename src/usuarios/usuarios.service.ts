@@ -66,16 +66,7 @@ export class UsuariosService {
 
   async listarUsuarios() {
     const usuarios = await this.prisma.usuario.findMany({
-      select: {
-        id: true,
-        nome: true,
-        email: true,
-        cargos: {
-          select: {
-            nome: true
-          }
-        }
-      }
+      select: selectUsuario
     })
 
     if (usuarios.length > 0) {
