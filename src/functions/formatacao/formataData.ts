@@ -11,7 +11,7 @@ export function formataData(data) {
     var mes = novaData[1];
     var ano = novaData[0];
     
-    var dataAtualizada = [dia, mes, ano].join('-');
+    var dataAtualizada = [dia, mes, ano].join('/');
 
     return dataAtualizada;
 }
