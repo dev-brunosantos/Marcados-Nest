@@ -27,15 +27,6 @@ model Naipe {
   usuarios Usuario[]
 }
 
-model Instrumento {
-  id            Int      @id @default(autoincrement())
-  naipe         String   @unique
-  dtCriacao     DateTime @default(now())
-  dtAtualizacao DateTime @updatedAt
-
-  usuarios Usuario[]
-}
-
 model Usuario {
   id            String   @id @default(uuid())
   nome          String
@@ -48,6 +39,4 @@ model Usuario {
   cargos  Cargo  @relation(fields: [cargoId], references: [id])
   naipe   Int?
   naipes   Naipe? @relation(fields: [naipe], references: [id])
-  instrumentoId Int?
-  instrumento Instrumento? @relation(fields: [instrumentoId], references: [id])
 }
