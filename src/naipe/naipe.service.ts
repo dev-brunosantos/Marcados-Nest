@@ -58,7 +58,17 @@ export class NaipeService {
     return `This action updates a #${id} naipe`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} naipe`;
+  async apagar(id: number) {
+    const naipeID = await this.naipeId(id)
+    
+    if(naipeID) {
+      await this.prisma.naipe.delete({
+        where: { id }
+      })
+
+      return `O naipe ${naipeID.naipe.toUpperCase()} foi excluído como solicitado.`
+    }
+
+    throw new HttpException("Não existe nenhum naipe vinculado ao ID informado.", HttpStatus.NOT_FOUND)
   }
 }
