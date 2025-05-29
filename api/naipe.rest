@@ -1,0 +1,31 @@
+### POST - CRIAR CARGO
+POST http://localhost:9000/naipe
+Content-Type: application/json
+
+{
+  "naipe": "Bateria",
+  "categoria": "Instrumentos"
+}
+
+### GET - LISTAR naipe
+GET http://localhost:9000/naipe
+
+### GET - LISTAR naipe
+GET http://localhost:9000/naipe/vozes
+
+### GET - LISTAR naipe
+GET http://localhost:9000/naipe/instrumentos
+
+### GET - BUSCAR CARGO POR ID
+GET http://localhost:9000/naipe/1
+
+### PATCH - ATUALIZAR CARGO
+PATCH http://localhost:9000/naipe/5
+Content-Type: application/json
+
+{
+  "nome": "Desenvolvedor"
+}
+
+### DELETE - DELETAR CARGO
+DELETE http://localhost:9000/naipe/{id}
