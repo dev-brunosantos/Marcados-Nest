@@ -54,8 +54,23 @@ export class NaipeService {
     throw new HttpException("Não existe nenhum naipe vinculado ao ID informado.", HttpStatus.NOT_FOUND)
   }
 
-  update(id: number, updateNaipeDto: UpdateNaipeDto) {
-    return `This action updates a #${id} naipe`;
+  async atualizar(id: number, updateNaipeDto: UpdateNaipeDto) {
+    const naipeID = await this.naipeId(id)
+    
+    if(naipeID) {
+      const atualizacao = await this.prisma.naipe.update({
+        where: { id },
+        data: updateNaipeDto
+      })
+
+      return {
+        status: "Atualização realizada com sucesso.",
+        dadosAntigos: naipeID,
+        dadosAtualizados: atualizacao
+      }
+    }
+
+    throw new HttpException("Não existe nenhum naipe vinculado ao ID informado.", HttpStatus.NOT_FOUND)
   }
 
   async apagar(id: number) {
