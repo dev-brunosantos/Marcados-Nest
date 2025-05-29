@@ -17,6 +17,16 @@ export class NaipeController {
     return this.naipeService.listar();
   }
 
+  @Get('/vozes')
+  listarVozes() {
+    return this.naipeService.listarVozes();
+  }
+
+  @Get('instrumentos')
+  listarInstrumentos() {
+    return this.naipeService.listarInstrumentos();
+  }
+
   @Get(':id')
   filtarID(@Param('id') id: string) {
     return this.naipeService.buscarNaipeID(+id);

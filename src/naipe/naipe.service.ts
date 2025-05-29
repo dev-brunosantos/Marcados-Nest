@@ -46,6 +46,26 @@ export class NaipeService {
     throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
   }
 
+  async listarVozes() {
+    const naipes = await this.prisma.naipe.findMany({
+      where: { categoria: "Vozes" }
+    })
+
+    if(naipes.length > 0) return naipes
+
+    throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
+  }
+
+  async listarInstrumentos() {
+    const naipes = await this.prisma.naipe.findMany({
+      where: { categoria: "Instrumentos" }
+    })
+
+    if(naipes.length > 0) return naipes
+
+    throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
+  }
+
   async buscarNaipeID(id: number) {
     const naipeID = await this.naipeId(id)
 
