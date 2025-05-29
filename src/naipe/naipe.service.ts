@@ -24,8 +24,18 @@ export class NaipeService {
     return naipeId
   }
 
-  create(createNaipeDto: CreateNaipeDto) {
-    return 'This action adds a new naipe';
+  async criar(createNaipeDto: CreateNaipeDto) {
+    const naipeExistente = await this.naipeExistente(createNaipeDto.naipe)
+
+    if(!naipeExistente) {
+      const novoNaipe = await this.prisma.naipe.create({
+        data: createNaipeDto
+      })
+
+      return `O naipe ${novoNaipe.naipe.toUpperCase()} foi criado com sucesso.`
+    }
+
+    throw new HttpException("O naipe informado já esta cadastrado no sistema.", HttpStatus.BAD_REQUEST)
   }
 
   findAll() {
