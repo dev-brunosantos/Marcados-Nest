@@ -38,8 +38,12 @@ export class NaipeService {
     throw new HttpException("O naipe informado já esta cadastrado no sistema.", HttpStatus.BAD_REQUEST)
   }
 
-  findAll() {
-    return `This action returns all naipe`;
+  async listar() {
+    const naipes = await this.prisma.naipe.findMany()
+
+    if(naipes.length > 0) return naipes
+
+    throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
   }
 
   async buscarNaipeID(id: number) {
