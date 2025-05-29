@@ -8,27 +8,27 @@ export class NaipeController {
   constructor(private readonly naipeService: NaipeService) {}
 
   @Post()
-  create(@Body() createNaipeDto: CreateNaipeDto) {
-    return this.naipeService.create(createNaipeDto);
+  criar(@Body() createNaipeDto: CreateNaipeDto) {
+    return this.naipeService.criar(createNaipeDto);
   }
 
   @Get()
-  findAll() {
-    return this.naipeService.findAll();
+  listar() {
+    return this.naipeService.listar();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.naipeService.findOne(+id);
+  filtarID(@Param('id') id: string) {
+    return this.naipeService.buscarNaipeID(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNaipeDto: UpdateNaipeDto) {
-    return this.naipeService.update(+id, updateNaipeDto);
+  atualizar(@Param('id') id: string, @Body() updateNaipeDto: UpdateNaipeDto) {
+    return this.naipeService.atualizar(+id, updateNaipeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.naipeService.remove(+id);
+  apagar(@Param('id') id: string) {
+    return this.naipeService.apagar(+id);
   }
 }
