@@ -22,7 +22,7 @@ export class NaipeController {
     return this.naipeService.listarVozes();
   }
 
-  @Get('instrumentos')
+  @Get('/instrumentos')
   listarInstrumentos() {
     return this.naipeService.listarInstrumentos();
   }
@@ -30,6 +30,11 @@ export class NaipeController {
   @Get(':id')
   filtarID(@Param('id') id: string) {
     return this.naipeService.buscarNaipeID(+id);
+  }
+
+  @Get('titulo/:nome')
+  filtrarNome(@Param('nome') nome: string) {
+    return this.naipeService.buscarNaipeNome(nome);
   }
 
   @Patch(':id')
