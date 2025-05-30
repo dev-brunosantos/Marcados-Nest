@@ -74,6 +74,14 @@ export class NaipeService {
     throw new HttpException("Não existe nenhum naipe vinculado ao ID informado.", HttpStatus.NOT_FOUND)
   }
 
+  async buscarNaipeNome(nome: string) {
+    const naipeNome = await this.naipeExistente(nome)
+
+    if (naipeNome) return naipeNome
+
+    throw new HttpException("Não existe nenhum naipe com esse nome cadastrado no sistema.", HttpStatus.NOT_FOUND)
+  }
+
   async atualizar(id: number, updateNaipeDto: UpdateNaipeDto) {
     const naipeID = await this.naipeId(id)
     
