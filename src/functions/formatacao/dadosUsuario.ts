@@ -14,6 +14,17 @@ export interface UsuarioProps {
     dtAtualizacao?: Date;
 }
 
+export interface UsuarioSimplificadoProps {
+    id: string;
+    nome: string;
+    cargos: {
+        nome: string;
+    };
+    naipes: {
+        naipe : string;
+    };
+}
+
 export function formatarDadosUsuario(usuarioProps: UsuarioProps): any {
     
     const infor = {
@@ -31,4 +42,20 @@ export function formatarDadosUsuario(usuarioProps: UsuarioProps): any {
 
 export function formatarArrayDeUsuarios(usuarios: UsuarioProps[]): any[] {
     return usuarios.map(formatarDadosUsuario);
+}
+
+export function formatarDadosUsuarioSimplificado(usuarioProps: UsuarioSimplificadoProps): any {
+    
+    const infor = {
+        id: usuarioProps.id,
+        nome: usuarioProps.nome,
+        cargo: usuarioProps.cargos.nome,
+        naipe: usuarioProps.naipes.naipe
+    }
+
+    return infor
+}
+
+export function formatarArrayDeUsuariosSimplificados(usuarios: UsuarioSimplificadoProps[]): any[] {
+    return usuarios.map(formatarDadosUsuarioSimplificado);
 }
