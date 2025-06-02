@@ -13,7 +13,9 @@ export class NaipeService {
       where: { naipe: nome }
     })
 
-    return naipe
+    if (naipe) {
+      return naipe
+    }
   }
 
   private async naipeId(id: number) {
@@ -27,7 +29,7 @@ export class NaipeService {
   async criar(createNaipeDto: CreateNaipeDto) {
     const naipeExistente = await this.naipeExistente(createNaipeDto.naipe)
 
-    if(!naipeExistente) {
+    if (!naipeExistente) {
       const novoNaipe = await this.prisma.naipe.create({
         data: createNaipeDto
       })
@@ -41,7 +43,7 @@ export class NaipeService {
   async listar() {
     const naipes = await this.prisma.naipe.findMany()
 
-    if(naipes.length > 0) return naipes
+    if (naipes.length > 0) return naipes
 
     throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
   }
@@ -51,7 +53,7 @@ export class NaipeService {
       where: { categoria: "Vozes" }
     })
 
-    if(naipes.length > 0) return naipes
+    if (naipes.length > 0) return naipes
 
     throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
   }
@@ -61,7 +63,7 @@ export class NaipeService {
       where: { categoria: "Instrumentos" }
     })
 
-    if(naipes.length > 0) return naipes
+    if (naipes.length > 0) return naipes
 
     throw new HttpException("Não existe nenhum naipe cadastrado no sistema.", HttpStatus.NOT_FOUND)
   }
@@ -84,8 +86,8 @@ export class NaipeService {
 
   async atualizar(id: number, updateNaipeDto: UpdateNaipeDto) {
     const naipeID = await this.naipeId(id)
-    
-    if(naipeID) {
+
+    if (naipeID) {
       const atualizacao = await this.prisma.naipe.update({
         where: { id },
         data: updateNaipeDto
@@ -103,8 +105,8 @@ export class NaipeService {
 
   async apagar(id: number) {
     const naipeID = await this.naipeId(id)
-    
-    if(naipeID) {
+
+    if (naipeID) {
       await this.prisma.naipe.delete({
         where: { id }
       })
