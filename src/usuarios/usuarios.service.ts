@@ -57,7 +57,6 @@ export class UsuariosService {
           nome: createUsuarioDto.nome,
           email: createUsuarioDto.email,
           senha: senhaCriptografada,
-          // cargoId: cargoId.id
           cargos: {
             connect: {
               id: cargoId.id
@@ -159,7 +158,6 @@ export class UsuariosService {
         }
       })
 
-      // return `O usuário ${usuarioAtualizado.nome.toUpperCase()} foi atualizado com sucesso!`;
       return {
         status: "Atualização realizada com sucesso",
         dadosAntigos: usuarioID,
