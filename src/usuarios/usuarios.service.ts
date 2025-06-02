@@ -100,6 +100,24 @@ export class UsuariosService {
     throw new HttpException('O ID informado não esta vinculado a nenhum usuário cadastrado no sistema.', HttpStatus.NOT_FOUND);
   }
 
+  async listarUsuariosMinistro() {
+    const usuarios = await this.prisma.usuario.findMany({
+      where: {
+        cargos: {
+          nome: "Ministro"
+        }
+      },
+      select: selectUsuario
+    })
+
+    if (usuarios.length > 0) {
+      var usuariosInfor = formatarArrayDeUsuarios(usuarios);
+      return  usuariosInfor
+    }
+
+    throw new HttpException('Nenhum usuário encontrado vinculado ao cargo informado.', HttpStatus.NOT_FOUND);
+  }
+
   async atualizar(id: string, updateUsuarioDto: UpdateUsuarioDto) {
     const usuarioID = await this.filtrarUsuaroID(id);
     const cargoId = await this.cargos.filtrarNome(updateUsuarioDto.cargo);
