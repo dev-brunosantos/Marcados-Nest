@@ -18,3 +18,20 @@ export const selectUsuario = {
     dtCadastro: true,
     dtAtualizacao: true
 }
+
+export const selectUsuarioSimplificado = {
+    id: true,
+    nome: true,
+    cargos: {
+        select: {
+            id: true,
+            nome: true
+        }
+    },
+    naipes: {
+        select: {
+            id: true, 
+            naipe: true
+        }
+    }
+}
