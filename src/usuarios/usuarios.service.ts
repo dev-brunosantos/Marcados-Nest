@@ -115,7 +115,7 @@ export class UsuariosService {
       return  usuariosInfor
     }
 
-    throw new HttpException('Nenhum usuário encontrado vinculado ao cargo informado.', HttpStatus.NOT_FOUND);
+    throw new HttpException('Nenhum ministro encontrado.', HttpStatus.NOT_FOUND);
   }
 
   async atualizar(id: string, updateUsuarioDto: UpdateUsuarioDto) {
