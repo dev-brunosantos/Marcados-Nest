@@ -4,8 +4,8 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CargosService } from 'src/cargos/cargos.service';
 import { hash } from 'bcrypt';
-import { formatarArrayDeUsuarios, formatarDadosUsuario } from 'src/functions/formatacao/dadosUsuario';
-import { selectUsuario } from 'src/functions/select/selectInforUsuario';
+import { formatarArrayDeUsuarios, formatarArrayDeUsuariosSimplificados, formatarDadosUsuario } from 'src/functions/formatacao/dadosUsuario';
+import { selectUsuario, selectUsuarioSimplificado } from 'src/functions/select/selectInforUsuario';
 import { NaipeService } from 'src/naipe/naipe.service';
 
 @Injectable()
@@ -111,7 +111,25 @@ export class UsuariosService {
     })
 
     if (usuarios.length > 0) {
-      var usuariosInfor = formatarArrayDeUsuarios(usuarios);
+      var usuariosInfor = formatarArrayDeUsuariosSimplificados(usuarios);
+      return  usuariosInfor
+    }
+
+    throw new HttpException('Nenhum ministro encontrado.', HttpStatus.NOT_FOUND);
+  }
+  
+  async listarUsuariosNaipes(naipe: string) {
+    const usuarios = await this.prisma.usuario.findMany({
+      where: {
+        naipes: {
+          naipe: { equals: naipe }
+        }
+      },
+      select: selectUsuarioSimplificado
+    })
+
+    if (usuarios.length > 0) {
+      var usuariosInfor = formatarArrayDeUsuariosSimplificados(usuarios);
       return  usuariosInfor
     }
 
