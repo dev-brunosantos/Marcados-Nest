@@ -3,15 +3,21 @@ POST http://localhost:9000/usuarios
 Content-Type: application/json
 
 {
-  "nome": "Issac",
-  "email": "Isaac@gmail.com",
+  "nome": "Paulo",
+  "email": "paulo1@gmail.com",
   "senha": "12345",
-  "cargo": "Musico",
-  "naipe": "Guitarra"
+  "cargo": "Ministro",
+  "naipe": "Tenor"
 }
 
 ### GET - LISTAR usuarios
 GET http://localhost:9000/usuarios
+
+### GET - LISTAR usuarios Cargos
+GET http://localhost:9000/usuarios/cargo/ministros
+
+### GET - LISTAR usuarios Naipes
+GET http://localhost:9000/usuarios/naipes/Tenor
 
 ### GET - BUSCAR usuarios POR ID
 GET http://localhost:9000/usuarios/1c12ffce-3752-4322-a193-f15dbf8a13c1
