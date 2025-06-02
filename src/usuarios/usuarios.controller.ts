@@ -22,6 +22,11 @@ export class UsuariosController {
     return this.usuariosService.filtrarUsuaroID(id);
   }
 
+  @Get('/cargo/ministros')
+  usuarioMinistro() {
+    return this.usuariosService.listarUsuariosMinistro();
+  }
+
   @Patch(':id')
   atualizar(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuariosService.atualizar(id, updateUsuarioDto);
