@@ -3,24 +3,29 @@ POST http://localhost:9000/usuarios
 Content-Type: application/json
 
 {
-  "nome": "Rodolfo Ferreira",
-  "email": "rodolfo@gmail.com",
-  "senha": "1234",
-  "cargo": "Musico"
+  "nome": "Issac",
+  "email": "Isaac@gmail.com",
+  "senha": "12345",
+  "cargo": "Musico",
+  "naipe": "Guitarra"
 }
 
 ### GET - LISTAR usuarios
 GET http://localhost:9000/usuarios
 
 ### GET - BUSCAR usuarios POR ID
-GET http://localhost:9000/usuarios/dde2ac0b-d928-45e7-856d-7ac9ad75f055
+GET http://localhost:9000/usuarios/1c12ffce-3752-4322-a193-f15dbf8a13c1
 
 ### PATCH - ATUALIZAR usuarios
-PATCH http://localhost:9000/usuarios/5
+PATCH http://localhost:9000/usuarios/1c12ffce-3752-4322-a193-f15dbf8a13c1
 Content-Type: application/json
 
 {
-  "nome": "Desenvolvedor"
+  "nome": "Isaac",
+  "email": "Isaac@gmail.com",
+  "senha": "12345",
+  "cargo": "Musico",
+  "naipe": "Guitarra"
 }
 
 ### DELETE - DELETAR usuarios

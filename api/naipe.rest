@@ -19,6 +19,9 @@ GET http://localhost:9000/naipe/instrumentos
 ### GET - BUSCAR CARGO POR ID
 GET http://localhost:9000/naipe/1
 
+### GET - BUSCAR CARGO POR NOME
+GET http://localhost:9000/naipe/titulo/Violão
+
 ### PATCH - ATUALIZAR CARGO
 PATCH http://localhost:9000/naipe/5
 Content-Type: application/json
