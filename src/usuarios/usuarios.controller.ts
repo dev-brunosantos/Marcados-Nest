@@ -27,6 +27,11 @@ export class UsuariosController {
     return this.usuariosService.listarUsuariosMinistro();
   }
 
+  @Get('/naipes/:naipe')
+  usuarioNeipes(@Param('naipe') naipe: string) {
+    return this.usuariosService.listarUsuariosNaipes(naipe);
+  }
+
   @Patch(':id')
   atualizar(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuariosService.atualizar(id, updateUsuarioDto);
