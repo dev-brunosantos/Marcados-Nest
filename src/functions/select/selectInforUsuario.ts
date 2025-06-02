@@ -9,6 +9,12 @@ export const selectUsuario = {
             nome: true
         }
     },
+    naipes: {
+        select: {
+            id: true, 
+            naipe: true
+        }
+    },
     dtCadastro: true,
     dtAtualizacao: true
 }

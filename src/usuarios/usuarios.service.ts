@@ -6,13 +6,15 @@ import { CargosService } from 'src/cargos/cargos.service';
 import { hash } from 'bcrypt';
 import { formatarArrayDeUsuarios, formatarDadosUsuario } from 'src/functions/formatacao/dadosUsuario';
 import { selectUsuario } from 'src/functions/select/selectInforUsuario';
+import { NaipeService } from 'src/naipe/naipe.service';
 
 @Injectable()
 export class UsuariosService {
 
   constructor(
     private readonly prisma: PrismaService,
-    private readonly cargos: CargosService
+    private readonly cargos: CargosService,
+    private readonly naipe: NaipeService
   ) { }
 
   async usuarioInfor(dado: string) {
@@ -39,6 +41,7 @@ export class UsuariosService {
     if (!usuarioExistente) {
       const senhaCriptografada = await hash(createUsuarioDto.senha, 10);
       const cargoId = await this.cargos.filtrarNome(createUsuarioDto.cargo);
+      const naipeId = await this.naipe.buscarNaipeNome(createUsuarioDto.naipe)
 
       if (!cargoId) {
         throw new HttpException('Cargo não encontrado', HttpStatus.NOT_FOUND);
