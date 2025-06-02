@@ -29,7 +29,7 @@ export class UsuariosService {
       select: selectUsuario
     })
 
-    if(usuario) {
+    if (usuario) {
       var infor = formatarDadosUsuario(usuario)
       return infor;
     }
@@ -47,6 +47,11 @@ export class UsuariosService {
         throw new HttpException('Cargo não encontrado', HttpStatus.NOT_FOUND);
       }
 
+      if (!naipeId) {
+        throw new HttpException('Naipe não encontrado', HttpStatus.NOT_FOUND);
+      }
+
+
       const novoUsuario = await this.prisma.usuario.create({
         data: {
           nome: createUsuarioDto.nome,
@@ -56,6 +61,11 @@ export class UsuariosService {
           cargos: {
             connect: {
               id: cargoId.id
+            }
+          },
+          naipes: {
+            connect: {
+              id: naipeId.id
             }
           }
         }
@@ -74,7 +84,7 @@ export class UsuariosService {
 
     if (usuarios.length > 0) {
       var usuariosInfor = formatarArrayDeUsuarios(usuarios);
-      return usuariosInfor // usuarios
+      return  usuariosInfor
     }
 
     throw new HttpException('Nenhum usuário encontrado', HttpStatus.NOT_FOUND);
