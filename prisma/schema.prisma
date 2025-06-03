@@ -38,5 +38,25 @@ model Usuario {
   cargoId Int
   cargos  Cargo  @relation(fields: [cargoId], references: [id])
   naipe   Int?
-  naipes   Naipe? @relation(fields: [naipe], references: [id])
+  naipes  Naipe? @relation(fields: [naipe], references: [id])
+}
+
+enum Vozes {
+  SOPRANO
+  CONTRALTO
+  TENOR
+}
+
+model Escala {
+  id         Int      @id @default(autoincrement())
+  ministro   String
+  sopranos   String
+  contraltos String
+  tenores    String
+  teclados   String
+  violao     String
+  bateria    String
+  baixo      String
+  guitarra   String
+  culto      DateTime
 }
